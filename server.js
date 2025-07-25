@@ -61,11 +61,19 @@ app.post("/echo", (req, res) => {
 
 
 
-// NEW::: Handle PUT request to update data by ID
+// Handle PUT request to update data by ID () CURRENTLY NOT WORKING (unknown reason)
 app.put("/data/:id", (req, res) => {
+  // console.log("PUT /data/:id called");
+  // console.log("Request params:", req.params);
+  // console.log("Request body:", req.body);
+
   const data = readData();
   const itemId = req.params.id;
   const updatedBody = req.body;
+
+  if (!updatedBody || typeof updatedBody !== "object") {
+    return res.status(400).json({ message: "Invalid request body" });
+  }
 
   const itemIndex = data.findIndex((item) => item.id === itemId);
 
@@ -74,11 +82,10 @@ app.put("/data/:id", (req, res) => {
   }
 
   data[itemIndex] = { ...data[itemIndex], ...updatedBody, id: itemId };
-
   writeData(data);
-
   res.json({ message: "Data updated successfully", data: data[itemIndex] });
 });
+
 
 // NEW::: Handle DELETE request to delete data by ID
 app.delete("/data/:id", (req, res) => {

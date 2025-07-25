@@ -1,5 +1,5 @@
 
-let tasks = [];
+// let tasks = [];
 
 const addTaskEl = document.getElementById("add-task");
 const taskInputEl = document.querySelector(".task-input");
@@ -15,9 +15,10 @@ taskInputEl.addEventListener("keypress", function(event) {
     }
 });
 
-taskInputEl.focus()
 
 document.addEventListener("DOMContentLoaded", () => {
+    addTaskEl.addEventListener("click", onClickAddButton); 
+    taskInputEl.focus()
 	fetchData(); // Call fetchData when the page loads
 });
 
@@ -42,7 +43,6 @@ const onClickAddButton = async () => {
     }
 };
 
-addTaskEl.addEventListener("click", onClickAddButton); // this needs to be defined after onClickAddButton function, so we can reference it
 
 const deleteDataItem = async (itemId) => {
     try {
@@ -62,14 +62,13 @@ const deleteDataItem = async (itemId) => {
 
 const SaveDataItem = async (itemId, updatedData) => {
 
-    const newText = { text:  taskInputEl.value }; 
+    // const newText = { text:  taskInputEl.value }; 
     try {
     const response = await fetch(`/data/${itemId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedData),
-    });
-
+        });
     if (response.ok) {
         // fetchData();
     }
@@ -81,18 +80,13 @@ const SaveDataItem = async (itemId, updatedData) => {
 const fetchData = async () => {   
 	const row = document.createElement('tr'); 
 	try {
-        console.log(10)
 		const response = await fetch("/data");
-        console.log(11)
 		const data = await response.json();
-        console.log(12)
 		//* dataList.innerHTML = ""; // Clear the list before rendering
 		taskTableBodyEl.innerHTML = '';
-		console.log(20)
 		data.forEach((item) => {
 			const row = document.createElement('tr');
             row.dataset.id = item.id; // crucial for identifying the item later
-			console.log(1)
             row.innerHTML = 
 				`<td>
 					<span class="task-text">${item.text}</span>
@@ -111,9 +105,7 @@ const fetchData = async () => {
 				</button>
 				</td>
 			`;           
-            console.log(2)
 			taskTableBodyEl.appendChild(row);
-            console.log(3)
 		});
 	} catch (error) {
 		console.error("Error fetching data:", error);
@@ -171,7 +163,8 @@ taskTableBodyEl.addEventListener("click", function (e) {
  
         const input = row.querySelector(".editable-task");
         const newText = input.value.trim();
-
+        console.log(taskId)
+        console.log(newText)
         SaveDataItem (taskId, newText);
         // if (newText) {
         //     task.text = newText;
@@ -180,7 +173,7 @@ taskTableBodyEl.addEventListener("click", function (e) {
         // Change button back to Edit 
         actionButton.dataset.action = "edit";
         actionButton.textContent = 'Edit';
-        fetchData();
+        // fetchData();
 
     } else if (action === "delete") {
 
@@ -189,7 +182,7 @@ taskTableBodyEl.addEventListener("click", function (e) {
         if (confirmDelete) {
             
             deleteDataItem(taskId);
-            fetchData();
+            // fetchData();
         }
     } else if (action === "undo") {
         const span = row.querySelector(".task-text");

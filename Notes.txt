@@ -11,6 +11,8 @@ e.g.  const dataInput = document.getElementById("data-input");
 This is global so and it introduces a potential issue: 
 if script.js loads before the HTML element with id="data-input" is parsed, dataInput would be null at the time of its global declaration.
 
+npx kill-port 3001 3002 3003
+
 To kill other tasks from cmd
 C:\Users\user>netstat -ano | findstr :3001
   TCP    0.0.0.0:3001           0.0.0.0:0              LISTENING       17704
