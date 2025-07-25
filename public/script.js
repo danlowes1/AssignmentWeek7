@@ -1,12 +1,8 @@
-
-// let tasks = [];
-
 const addTaskEl = document.getElementById("add-task");
 const taskInputEl = document.querySelector(".task-input");
 const taskTableBodyEl = document.querySelector(".task-table tbody");
 const dateHeaderEl = document.getElementById('sort-header-date');
 const taskHeaderEl = document.getElementById('sort-header-task');
-
 
 
 taskInputEl.addEventListener("keypress", function(event) {
