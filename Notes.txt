@@ -1,0 +1,23 @@
+
+Best Practice for Element References:
+The safest and most common practice for referencing DOM elements is to get them inside the DOMContentLoaded listener, 
+or within the function that uses them, especially if that function is only called after the DOM is ready.
+I've updated the onClickAddButton function in the corrected code above to get dataInput inside the function itself. 
+This ensures that when onClickAddButton is called (which will be after DOMContentLoaded when the button is clicked), 
+the dataInput element is guaranteed to exist.
+This structure allows onClickAddButton to be a reusable standalone function, 
+while correctly handling DOM element access and avoiding the TDZ error
+e.g.  const dataInput = document.getElementById("data-input");
+This is global so and it introduces a potential issue: 
+if script.js loads before the HTML element with id="data-input" is parsed, dataInput would be null at the time of its global declaration.
+
+To kill other tasks from cmd
+C:\Users\user>netstat -ano | findstr :3001
+  TCP    0.0.0.0:3001           0.0.0.0:0              LISTENING       17704
+  TCP    127.0.0.1:3001         0.0.0.0:0              LISTENING       22088
+  TCP    [::]:3001              [::]:0                 LISTENING       17704
+
+C:\Users\user>taskkill /PID 17704 /F
+
+
+.
