@@ -13,9 +13,10 @@ taskInputEl.addEventListener("keypress", function(event) {
 
 
 document.addEventListener("DOMContentLoaded", () => {
+    // when the page loads
     addTaskEl.addEventListener("click", onClickAddButton); 
     taskInputEl.focus()
-	fetchData(); // Call fetchData when the page loads
+	fetchData(); 
 });
 
 const onClickAddButton = async () => {
@@ -58,7 +59,6 @@ const deleteDataItem = async (itemId) => {
 
 const SaveDataItem = async (itemId, updatedData) => {
 
-    // const newText = { text:  taskInputEl.value }; 
     try {
     const response = await fetch(`/data/${itemId}`, {
         method: "PUT",
@@ -66,7 +66,7 @@ const SaveDataItem = async (itemId, updatedData) => {
         body: JSON.stringify(updatedData),
         });
     if (response.ok) {
-        // fetchData();
+         fetchData();
     }
     } catch (error) {
         console.error("Error adding data:", error);
@@ -78,7 +78,7 @@ const fetchData = async () => {
 	try {
 		const response = await fetch("/data");
 		const data = await response.json();
-		//* dataList.innerHTML = ""; // Clear the list before rendering
+
 		taskTableBodyEl.innerHTML = '';
 		data.forEach((item) => {
 			const row = document.createElement('tr');
