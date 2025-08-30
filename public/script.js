@@ -1,3 +1,4 @@
+// script.js
 const addTaskEl = document.getElementById("add-task");
 const taskInputEl = document.querySelector(".task-input");
 const taskTableBodyEl = document.querySelector(".task-table tbody");
@@ -21,6 +22,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const onClickAddButton = async () => {
 
+    if (taskInputEl.value.trim() === "") {
+        showMessage("Task cannot be empty");
+        return;
+    }
+
     const CreatedOn = new Date().toISOString().slice(0, 19).replace('T', ' ') // date and time format
     const newData = { text:  taskInputEl.value, CreatedOn: CreatedOn }; 
  
@@ -42,6 +48,7 @@ const onClickAddButton = async () => {
 
 
 const deleteDataItem = async (itemId) => {
+    
     try {
     const response = await fetch(`/data/${itemId}`, {
         method: "DELETE",
@@ -57,7 +64,11 @@ const deleteDataItem = async (itemId) => {
 
 
 
-const SaveDataItem = async (itemId, updatedData) => {
+const SaveDataItem = async (itemId, updatedText) => {
+
+    // alert(`Save changes to:\n\n"${updatedData}"`)
+
+    const updatedData = { text: updatedText };
 
     try {
     const response = await fetch(`/data/${itemId}`, {
